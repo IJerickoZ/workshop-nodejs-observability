@@ -1,4 +1,6 @@
 version: '3.8'
+volumes:
+  prometheus_data: {}
 services:
   service1:
     build:
@@ -21,6 +23,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - 3002:3002
+      - 9464:9464
   zipkin:
     image: openzipkin/zipkin
     ports:
@@ -29,6 +32,9 @@ services:
     image: prom/prometheus
     ports:
       - 9090:9090
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
   grafana:
     image: grafana/grafana
     ports:
